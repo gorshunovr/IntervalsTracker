@@ -1,12 +1,5 @@
 //
-//  ContentView.swift
-//  IntervalsTracker
-//
-//  Created by Roman Gorshunov on 09/01/2025.
-//
-
-//
-//  ContentView.swift
+//  MainScreen.swift
 //  IntervalsTracker
 //
 //  Created by Roman Gorshunov on 09/01/2025.
@@ -15,24 +8,17 @@
 import SwiftUI
 import SwiftData
 
-struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
+struct MainScreen: View {
     @Query private var exerciseSets: [ExerciseSet]
+    @State private var selectedExerciseSet: ExerciseSet?
 
     var body: some View {
         NavigationView {
             VStack {
                 List(exerciseSets) { set in
-                    NavigationLink(destination: ExerciseScreen(exerciseSet: set)) {
-                        VStack(alignment: .leading) {
-                            Text(set.name)
-                                .font(.headline)
-                            if let comment = set.comment {
-                                Text(comment)
-                                    .font(.subheadline)
-                                    .foregroundColor(.secondary)
-                            }
-                        }
+                    Button(action: { selectedExerciseSet = set }) {
+                        Text(set.name)
+                            .font(.headline)
                     }
                 }
                 .navigationTitle("Exercise Sets")
@@ -60,9 +46,4 @@ struct ContentView: View {
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }
-}
-
-#Preview {
-    ContentView()
-        .modelContainer(for: ExerciseSet.self, inMemory: true)
 }
